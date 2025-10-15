@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Projektmappenelemente/">
+    <File Path=".editorconfig" />
     <File Path=".gitignore" />
     <File Path="LICENSE" />
     <File Path="README.md" />
