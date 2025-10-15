@@ -1,0 +1,94 @@
+############################
+# Build and IDE Artifacts  #
+############################
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+out/
+debug/
+release/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# Visual Studio specific
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains IDEs
+.idea/
+*.sln.iml
+
+############################
+# Test and Coverage Files  #
+############################
+TestResults/
+*.coverage
+*.coveragexml
+*.testlog
+*.trx
+
+############################
+# NuGet and Packages       #
+############################
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+*.nuspec
+
+# Avoid committing NuGet restore artifacts
+project.lock.json
+project.fragment.lock.json
+artifacts/
+_Packages/
+*.nuget.props
+*.nuget.targets
+
+############################
+# Logs and Temp Files      #
+############################
+*.log
+*.tlog
+*.cache
+*.tmp
+*.temp
+*.bak
+*.orig
+*.old
+*.swp
+*.swo
+
+############################
+# Build Configuration      #
+############################
+*.dbmdl
+*.jfm
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.VC.VC.opendb
+
+############################
+# User Secrets / Config    #
+############################
+secrets.json
+*.userprefs
+appsettings.*.local.json
+appsettings.Development.json
+.env
+.env.*
+
+############################
+# OS / Misc Files          #
+############################
+# macOS
+.DS_Store
+.Ap

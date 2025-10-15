@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Projektmappenelemente/">
+    <File Path=".gitignore" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="SigTec.Lib.NetStd20.Tests/SigTec.Lib.NetStd20.Tests.csproj" Id="720c8c02-3116-47d4-98d3-24b33273972a" />
+  <Project Path="SigTec.Lib.NetStd20/SigTec.Lib.NetStd20.csproj" />
+</Solution>
