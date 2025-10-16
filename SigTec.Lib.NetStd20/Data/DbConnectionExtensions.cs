@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 
 namespace SigTec.Lib.NetStd20.Data
 {
@@ -11,6 +12,14 @@ namespace SigTec.Lib.NetStd20.Data
         return ':';
       }
       return '@';
+    }
+
+    public static IDbCommand CreateCommand(this IDbConnection connection, FormattableString commandText, IDbTransaction transaction = null)
+    {
+      var command = connection.CreateCommand();
+      command.Transaction = transaction;
+      command.SetCommandTextWithParameters(commandText);
+      return command;
     }
   }
 }

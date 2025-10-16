@@ -7,8 +7,6 @@
 
   public static class ReadOnlyDictionaryExtensions
   {
-    
-
     /// <summary>
     /// Converts a format string with named placeholders into a FormattableString,
     /// replacing placeholders with dictionary values. Supports alignment and format specifiers.
@@ -21,7 +19,5 @@
       var args = parsedFormatString.Keys.Select(s => (object?)dict[s]).ToArray();
       return FormattableStringFactory.Create(parsedFormatString.Format, args);
     }
-
-    
   }
 }

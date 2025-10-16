@@ -1,6 +1,5 @@
 ﻿namespace SigTec.Lib.NetStd20.Data
 {
-  using System;
   using System.Collections;
   using System.Collections.Generic;
   using System.Data;
@@ -8,54 +7,43 @@
 
   internal class DataRecordWrapper : IReadOnlyDictionary<string, object?>
   {
-    readonly IDataRecord _record;
-
-    private static object? GetValueOrNull(object? value) => value is DBNull ? null : value;
+    private readonly IReadOnlyDictionary<string, object?> _values;
 
     public DataRecordWrapper(IDataRecord record)
     {
-      _record = record;
+      var data = record.GetValues();
+      _values = Enumerable.Range(0, data.Length).ToDictionary(
+        i => record.GetName(i),
+        i => record.IsDBNull(i) ? null : data[i]
+      );
     }
 
-    public object? this[string key] => GetValueOrNull(_record[key]);
+    public object? this[string key] => _values[key];
 
-    public IEnumerable<string> Keys => Enumerable.Range(0, _record.FieldCount).Select(i => _record.GetName(i));
+    public IEnumerable<string> Keys => _values.Keys;
 
-    public IEnumerable<object?> Values
+    public IEnumerable<object?> Values => _values.Values;
+
+    public int Count => _values.Count;
+
+    public bool ContainsKey(string key)
     {
-      get
-      {
-        var values = new object?[_record.FieldCount];
-        _record.GetValues(values);
-        return values;
-      }
+      return _values.ContainsKey(key);
     }
-
-    public int Count => _record.FieldCount;
-
-    public bool ContainsKey(string key) => this.Keys.Contains(key);
 
     public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
     {
-      var values = new object[_record.FieldCount];
-      _record.GetValues(values);
-      for (int i = 0; i < values.Length; i++)
-      {
-        yield return new KeyValuePair<string, object?>(_record.GetName(i), values[i]); 
-      }
+      return _values.GetEnumerator();
     }
 
     public bool TryGetValue(string key, out object? value)
     {
-      if(!this.ContainsKey(key))
-      {
-        value = null;
-        return false;
-      }
-      value = this[key];
-      return true;
+      return _values.TryGetValue(key, out value);
     }
 
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return ((IEnumerable)_values).GetEnumerator();
+    }
   }
 }

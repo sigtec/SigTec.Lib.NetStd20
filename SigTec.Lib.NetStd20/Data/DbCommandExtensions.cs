@@ -42,11 +42,69 @@
       }
     }
 
-    public static IEnumerable<IDataRecord> ExecuteEnumberable(this IDbCommand command)
+    public static IEnumerable<IDataReader> ExecuteEnumberable(this IDbCommand command)
     {
       using (var reader = command.ExecuteReader())
       {
-        yield return reader;
+        while (reader.Read())
+        {
+          yield return reader;
+        }
+      }
+    }
+
+    public static IEnumerable<T0> ExecuteEnumberable<T0>(this IDbCommand command)
+    {
+      using (var reader = command.ExecuteReader())
+      {
+        while (reader.Read())
+        {
+          yield return reader.GetValue<T0>();
+        }
+      }
+    }
+
+    public static IEnumerable<(T0, T1)> ExecuteEnumberable<T0, T1>(this IDbCommand command)
+    {
+      using (var reader = command.ExecuteReader())
+      {
+        while (reader.Read())
+        {
+          yield return reader.GetValues<T0, T1>();
+        }
+      }
+    }
+
+    public static IEnumerable<(T0, T1, T2)> ExecuteEnumberable<T0, T1, T2>(this IDbCommand command)
+    {
+      using (var reader = command.ExecuteReader())
+      {
+        while (reader.Read())
+        {
+          yield return reader.GetValues<T0, T1, T2>();
+        }
+      }
+    }
+
+    public static IEnumerable<(T0, T1, T2, T3)> ExecuteEnumberable<T0, T1, T2, T3>(this IDbCommand command)
+    {
+      using (var reader = command.ExecuteReader())
+      {
+        while (reader.Read())
+        {
+          yield return reader.GetValues<T0, T1, T2, T3>();
+        }
+      }
+    }
+
+    public static IEnumerable<(T0, T1, T2, T3, T4)> ExecuteEnumberable<T0, T1, T2, T3, T4>(this IDbCommand command)
+    {
+      using (var reader = command.ExecuteReader())
+      {
+        while (reader.Read())
+        {
+          yield return reader.GetValues<T0, T1, T2, T3, T4>();
+        }
       }
     }
 
@@ -58,6 +116,20 @@
         table.Load(reader);
       }
       return table;
+    }
+
+    public static void SetCommandTextWithParameters(this IDbCommand command, FormattableString formattableString)
+    {
+      var i = 0;
+      var binds = new object[formattableString.ArgumentCount];
+      var parameterPrefix = command.Connection.GetParameterPrefix();
+      foreach (var arg in formattableString.GetArguments())
+      {
+        var name = $"p{i}";
+        binds[i++] = $"{parameterPrefix}{name}";
+        command.SetParameter(name, arg);
+      }
+      command.CommandText = string.Format(formattableString.Format, binds);
     }
   }
 }
